@@ -10,7 +10,7 @@ const MetaMask = () => {
   const [onSepolia, setOnSepolia] = useState(false);
   const [errMsg, setErrMsg] = useState(null);
 
-  const connectWallect = async () => {
+  const connectWallect = () => {
     detectEthereumProvider().then((result) => {
       if (result) {
         window.ethereum
@@ -68,16 +68,28 @@ const MetaMask = () => {
   return (
     <div className="text-xl m-5">
       {account ? (
-        <>
-          <h3 className="text-blue-600">Chain: {chain}</h3>
-          <h3 className="text-blue-600">Address: {account}</h3>
-          <h3 className="text-blue-600">Balance: {balance}</h3>
-          <h3 className="text-blue-600">{errMsg}</h3>
-          {onSepolia ? <Faucet /> : null}
-        </>
+        <div className="grid gap-4">
+          <div className="border-blue-400 border-2 rounded-lg">
+            <h3 className="text-blue-600">Chain: {chain}</h3>
+            <h3 className="text-blue-600">Address: {account}</h3>
+            <h3 className="text-blue-600">Balance: {balance}</h3>
+            <h3 className="text-blue-600">{errMsg}</h3>
+          </div>
+          {onSepolia ? (
+            <div className="border-blue-400 border-2 rounded-lg">
+              <Faucet />
+            </div>
+          ) : null}
+          <button
+            className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            onClick={connectWallect}
+          >
+            Refresh
+          </button>
+        </div>
       ) : (
         <button
-          className="bg-blue-600 text-white rounded-lg"
+          className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
           onClick={connectWallect}
         >
           Connect to MetaMask

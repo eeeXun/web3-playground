@@ -12,7 +12,11 @@ const Faucet = () => {
       params: [String(address)],
     })
     .then((result) => {
-      setBalance(`${Web3.utils.toBN(result)} wei (${Web3.utils.fromWei(String(result))} ETH)`);
+      setBalance(
+        `${Web3.utils.toBN(result)} wei (${Web3.utils.fromWei(
+          String(result)
+        )} ETH)`
+      );
     });
 
   const withdraw = async () => {
@@ -57,7 +61,6 @@ const Faucet = () => {
         <p>Contract Balance: {balance}</p>
       </div>
       <form
-        className="m-3"
         onSubmit={(event) => {
           event.preventDefault();
           withdraw();
@@ -67,11 +70,15 @@ const Faucet = () => {
           Withdraw from Faucet (wei):
         </label>
         <input
-          className="border-2 rounded-lg border-blue-600"
+          className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
           id="amountInput"
+          type="number"
           onChange={(event) => setAmount(event.target.value)}
         />
-        <button className="bg-blue-600 text-white rounded-lg m-3" type="submit">
+        <button
+          className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg m-3"
+          type="submit"
+        >
           {Web3.utils.fromWei(String(amount))} (ETH)
         </button>
       </form>
