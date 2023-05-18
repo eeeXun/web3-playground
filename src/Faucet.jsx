@@ -2,7 +2,8 @@ import { useState } from "react";
 import Web3 from "web3";
 
 const Faucet = () => {
-  const [amount, setAmount] = useState(0);
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [sendAmount, setSendAmount] = useState(0);
   const [balance, setBalance] = useState(0);
   const address = "0xD75035e79411558b24a553b6cDf7439488C20457";
 
@@ -18,6 +19,21 @@ const Faucet = () => {
         )} ETH)`
       );
     });
+
+  const sendToContract = async () => {
+    window.ethereum
+      .request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: window.ethereum.selectedAddress,
+            to: address,
+            value: Web3.utils.toHex(sendAmount),
+          },
+        ],
+      })
+      .then((txHash) => console.log(txHash));
+  };
 
   const withdraw = async () => {
     const web3 = new Web3(window.ethereum);
@@ -36,7 +52,7 @@ const Faucet = () => {
         stateMutability: "nonpayable",
         type: "function",
       },
-      [web3.utils.toBN(amount)]
+      [web3.utils.toBN(withdrawAmount)]
     );
     const transactionParameters = {
       from: window.ethereum.selectedAddress,
@@ -55,33 +71,57 @@ const Faucet = () => {
   };
 
   return (
-    <div className="text-xl m-5">
+    <div className="text-xl m-1">
       <div className="text-blue-600">
         <p>Contract Address: {address}</p>
         <p>Contract Balance: {balance}</p>
-      </div>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          withdraw();
-        }}
-      >
-        <label className="text-blue-600" htmlFor="amountInput">
-          Withdraw from Faucet (wei):
-        </label>
-        <input
-          className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
-          id="amountInput"
-          type="number"
-          onChange={(event) => setAmount(event.target.value)}
-        />
-        <button
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg m-3"
-          type="submit"
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            sendToContract();
+          }}
+          className="my-2"
         >
-          {Web3.utils.fromWei(String(amount))} (ETH)
-        </button>
-      </form>
+          <label className="text-blue-600" htmlFor="sendInput">
+            Send to Faucet (wei):
+          </label>
+          <input
+            className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+            id="sendInput"
+            type="number"
+            onChange={(event) => setSendAmount(event.target.value)}
+          />
+          <button
+            className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            type="submit"
+          >
+            {Web3.utils.fromWei(String(sendAmount))} (ETH)
+          </button>
+        </form>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            withdraw();
+          }}
+          className="my-2"
+        >
+          <label className="text-blue-600" htmlFor="amountInput">
+            Withdraw from Faucet (wei):
+          </label>
+          <input
+            className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+            id="amountInput"
+            type="number"
+            onChange={(event) => setWithdrawAmount(event.target.value)}
+          />
+          <button
+            className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            type="submit"
+          >
+            {Web3.utils.fromWei(String(withdrawAmount))} (ETH)
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
