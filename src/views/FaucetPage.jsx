@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
-import Web3 from "web3";
-import Faucet from "./Faucet";
+import MetaMask from "../components/MetaMask";
+import Faucet from "../components/Faucet";
 
-const MetaMask = () => {
+const FaucetPage = () => {
   const [account, setAccount] = useState(null);
-  const [balance, setBalance] = useState(null);
   const [chain, setChain] = useState(null);
   const [onSepolia, setOnSepolia] = useState(false);
   const [errMsg, setErrMsg] = useState(null);
@@ -16,7 +15,7 @@ const MetaMask = () => {
         window.ethereum
           .request({ method: "eth_requestAccounts" })
           .then((result) => {
-            accountChanged([result[0]]);
+            setAccount([result[0]]);
           });
         setErrMsg(null);
       } else {
@@ -25,24 +24,7 @@ const MetaMask = () => {
     });
   };
 
-  const accountChanged = (accountAddr) => {
-    setAccount(accountAddr);
-    getBalance(accountAddr);
-    getChain();
-  };
-
-  const getBalance = (accountAddr) => {
-    window.ethereum
-      .request({
-        method: "eth_getBalance",
-        params: [String(accountAddr)],
-      })
-      .then((result) => {
-        setBalance(Web3.utils.fromWei(String(result)) + " (ETH)");
-      });
-  };
-
-  const getChain = () => {
+  useEffect(() => {
     window.ethereum.request({ method: "eth_chainId" }).then((result) => {
       switch (parseInt(result, 16)) {
         case 11155111:
@@ -63,40 +45,39 @@ const MetaMask = () => {
           break;
       }
     });
-  };
+  }, [account]);
 
   return (
-    <div className="text-xl m-5">
+    <>
+      <h1 className="text-blue-600 text-5xl font-bold my-8">Web3 Faucet</h1>
       {account ? (
-        <div className="grid gap-4">
-          <div className="border-blue-400 border-2 rounded-lg">
-            <h3 className="text-blue-600">Chain: {chain}</h3>
-            <h3 className="text-blue-600">Address: {account}</h3>
-            <h3 className="text-blue-600">Balance: {balance}</h3>
-            <h3 className="text-blue-600">{errMsg}</h3>
+        <>
+          <div className="border-blue-400 border-2 rounded-lg m-3">
+            <MetaMask account={account} chain={chain} />
           </div>
           {onSepolia ? (
-            <div className="border-blue-400 border-2 rounded-lg">
+            <div className="border-blue-400 border-2 rounded-lg m-3">
               <Faucet />
             </div>
           ) : null}
           <button
-            className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xl"
             onClick={connectWallect}
           >
             Refresh
           </button>
-        </div>
+        </>
       ) : (
         <button
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+          className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xl"
           onClick={connectWallect}
         >
           Connect to MetaMask
         </button>
       )}
-    </div>
+      <h3 className="text-blue-600">{errMsg}</h3>
+    </>
   );
 };
 
-export default MetaMask;
+export default FaucetPage;

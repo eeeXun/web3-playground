@@ -1,4 +1,4 @@
-import MetaMask from "./MetaMask";
+import FaucetPage from "./views/FaucetPage";
 import { Route, Routes, Link } from "react-router-dom";
 
 const App = () => {
@@ -14,17 +14,7 @@ const App = () => {
       </nav>
       <Routes>
         <Route path="/" element={<h1>Hello world!</h1>}></Route>
-        <Route
-          path="/faucet"
-          element={
-            <>
-              <h1 className="text-blue-600 text-5xl font-bold my-8">
-                Web3 Faucet
-              </h1>
-              <MetaMask />
-            </>
-          }
-        ></Route>
+        <Route path="/faucet" element={<FaucetPage />}></Route>
       </Routes>
     </div>
   );
