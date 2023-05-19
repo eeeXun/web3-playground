@@ -6,6 +6,7 @@ const Faucet = () => {
   const [sendAmount, setSendAmount] = useState(0);
   const [balance, setBalance] = useState(0);
   const address = "0xD75035e79411558b24a553b6cDf7439488C20457";
+  const web3 = new Web3(window.ethereum);
 
   window.ethereum
     .request({
@@ -20,7 +21,7 @@ const Faucet = () => {
       );
     });
 
-  const sendToContract = async () => {
+  const sendToContract = () => {
     window.ethereum
       .request({
         method: "eth_sendTransaction",
@@ -35,8 +36,7 @@ const Faucet = () => {
       .then((txHash) => console.log(txHash));
   };
 
-  const withdraw = async () => {
-    const web3 = new Web3(window.ethereum);
+  const withdraw = () => {
     // https://github.com/snsd0805/Testnet_faucet_web/blob/master/src/views/FaucetView.vue#L36-L55
     const encodeFunctionCall = web3.eth.abi.encodeFunctionCall(
       {
@@ -63,18 +63,21 @@ const Faucet = () => {
     console.log(encodeFunctionCall);
     console.log(transactionParameters);
 
-    const txHash = await ethereum.request({
-      method: "eth_sendTransaction",
-      params: [transactionParameters],
-    });
-    console.log(txHash);
+    window.ethereum
+      .request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      })
+      .then((txHash) => {
+        console.log(txHash);
+      });
   };
 
   return (
     <div className="text-xl m-1">
       <div className="text-blue-600">
         <p>Contract Address: {address}</p>
-        <p>Contract Balance: {balance}</p>
+        <p>Balance: {balance}</p>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -83,7 +86,7 @@ const Faucet = () => {
           className="my-2"
         >
           <label className="text-blue-600" htmlFor="sendInput">
-            Send to Faucet (wei):
+            Send (wei):
           </label>
           <input
             className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
@@ -106,7 +109,7 @@ const Faucet = () => {
           className="my-2"
         >
           <label className="text-blue-600" htmlFor="amountInput">
-            Withdraw from Faucet (wei):
+            Withdraw (wei):
           </label>
           <input
             className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
