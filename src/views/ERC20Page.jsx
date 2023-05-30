@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import MetaMask from "../components/MetaMask";
 import ERC20 from "../components/ERC20";
@@ -18,13 +18,14 @@ const ERC20Page = () => {
             setAccount([result[0]]);
           });
         setErrMsg(null);
+        getChain();
       } else {
         setErrMsg("Install MetaMask!");
       }
     });
   };
 
-  useEffect(() => {
+  const getChain = () => {
     window.ethereum.request({ method: "eth_chainId" }).then((result) => {
       switch (parseInt(result, 16)) {
         case 11155111:
@@ -45,7 +46,7 @@ const ERC20Page = () => {
           break;
       }
     });
-  }, [account]);
+  };
 
   return (
     <>
