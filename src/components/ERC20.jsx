@@ -97,7 +97,7 @@ const ERC20 = () => {
   };
 
   return (
-    <div className="text-xl m-1 text-blue-600">
+    <div className="m-1 text-xl text-blue-600">
       <p>ERC20 Address: {address}</p>
       <p>
         Name: {name}({symbol})
@@ -119,13 +119,13 @@ const ERC20 = () => {
           Buy Token (wei):
         </label>
         <input
-          className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
           id="sendInput"
           type="number"
           onChange={(event) => setSendAmount(event.target.value)}
         />
         <button
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+          className="text-white bg-blue-600 rounded-lg hover:bg-blue-500"
           type="submit"
         >
           {Math.floor(sendAmount * 10)} (token)
@@ -142,13 +142,13 @@ const ERC20 = () => {
           Withdraw ETH with token (token):
         </label>
         <input
-          className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
           id="sendInput"
           type="number"
           onChange={(event) => setWithdrawAmount(event.target.value)}
         />
         <button
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+          className="text-white bg-blue-600 rounded-lg hover:bg-blue-500"
           type="submit"
         >
           {Math.floor(withdrawAmount / 10)} (wei)

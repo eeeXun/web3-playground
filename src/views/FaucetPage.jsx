@@ -49,19 +49,19 @@ const FaucetPage = () => {
 
   return (
     <>
-      <h1 className="text-blue-600 text-5xl font-bold my-8">Web3 Faucet</h1>
+      <h1 className="my-8 text-5xl font-bold text-blue-600">Web3 Faucet</h1>
       {account ? (
         <>
-          <div className="border-blue-400 border-2 rounded-lg m-3">
+          <div className="m-3 rounded-lg border-2 border-blue-400">
             <MetaMask account={account} chain={chain} />
           </div>
           {onSepolia ? (
-            <div className="border-blue-400 border-2 rounded-lg m-3">
+            <div className="m-3 rounded-lg border-2 border-blue-400">
               <Faucet />
             </div>
           ) : null}
           <button
-            className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xl"
+            className="text-xl text-white bg-blue-600 rounded-lg hover:bg-blue-500"
             onClick={connectWallect}
           >
             Refresh
@@ -69,7 +69,7 @@ const FaucetPage = () => {
         </>
       ) : (
         <button
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xl"
+          className="text-xl text-white bg-blue-600 rounded-lg hover:bg-blue-500"
           onClick={connectWallect}
         >
           Connect to MetaMask

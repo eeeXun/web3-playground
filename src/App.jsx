@@ -6,14 +6,14 @@ import { Route, Routes, Link } from "react-router-dom";
 const App = () => {
   return (
     <div className="text-center">
-      <nav className="flex space-x-4 bg-blue-400 text-2xl">
-        <Link className="text-white hover:bg-blue-500 rounded-lg" to="/">
+      <nav className="flex space-x-4 text-2xl bg-blue-400">
+        <Link className="text-white rounded-lg hover:bg-blue-500" to="/">
           Home
         </Link>
-        <Link className="text-white hover:bg-blue-500 rounded-lg" to="/faucet">
+        <Link className="text-white rounded-lg hover:bg-blue-500" to="/faucet">
           Faucet
         </Link>
-        <Link className="text-white hover:bg-blue-500 rounded-lg" to="/erc20">
+        <Link className="text-white rounded-lg hover:bg-blue-500" to="/erc20">
           ERC20
         </Link>
       </nav>

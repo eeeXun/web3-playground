@@ -74,7 +74,7 @@ const Faucet = () => {
   };
 
   return (
-    <div className="text-xl m-1">
+    <div className="m-1 text-xl">
       <div className="text-blue-600">
         <p>Contract Address: {address}</p>
         <p>Balance: {balance}</p>
@@ -89,13 +89,13 @@ const Faucet = () => {
             Send (wei):
           </label>
           <input
-            className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+            className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
             id="sendInput"
             type="number"
             onChange={(event) => setSendAmount(event.target.value)}
           />
           <button
-            className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            className="text-white bg-blue-600 rounded-lg hover:bg-blue-500"
             type="submit"
           >
             {Web3.utils.fromWei(String(sendAmount))} (ETH)
@@ -112,13 +112,13 @@ const Faucet = () => {
             Withdraw (wei):
           </label>
           <input
-            className="border-2 rounded-lg border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+            className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
             id="amountInput"
             type="number"
             onChange={(event) => setWithdrawAmount(event.target.value)}
           />
           <button
-            className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            className="text-white bg-blue-600 rounded-lg hover:bg-blue-500"
             type="submit"
           >
             {Web3.utils.fromWei(String(withdrawAmount))} (ETH)

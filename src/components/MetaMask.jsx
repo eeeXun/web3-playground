@@ -19,7 +19,9 @@ const MetaMask = (props) => {
     <div className="text-xl">
       <h3 className="text-blue-600">Chain: {props.chain}</h3>
       <h3 className="text-blue-600">Address: {props.account}</h3>
-      <h3 className="text-blue-600">Balance: {String(balance)} ({Web3.utils.fromWei(String(balance))} ETH)</h3>
+      <h3 className="text-blue-600">
+        Balance: {String(balance)} ({Web3.utils.fromWei(String(balance))} ETH)
+      </h3>
     </div>
   );
 };
