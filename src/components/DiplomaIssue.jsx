@@ -1,7 +1,7 @@
 import Web3 from "web3";
 
 const DiplomaIssue = () => {
-  const address = "0x2C65132B19923BF9113C09F41f2E8E6a1EB0d2D4";
+  const address = "0xCfEe0D93a77133026d9Ba44286877b226601F901";
   const web3 = new Web3(window.ethereum);
 
   const issue_diploma = (event) => {
@@ -73,7 +73,7 @@ const DiplomaIssue = () => {
           To (address):
         </label>
         <input
-          className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
           id="sendAddress"
           name="sendAddress"
           type="text"
@@ -84,7 +84,7 @@ const DiplomaIssue = () => {
           Name:
         </label>
         <input
-          className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
           id="name"
           name="name"
           type="text"
@@ -95,7 +95,7 @@ const DiplomaIssue = () => {
           Degree:
         </label>
         <input
-          className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
           id="degree"
           name="degree"
           type="text"
@@ -106,7 +106,7 @@ const DiplomaIssue = () => {
           Deparment:
         </label>
         <input
-          className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
           id="deparment"
           name="deparment"
           type="text"
@@ -117,7 +117,7 @@ const DiplomaIssue = () => {
           Year:
         </label>
         <input
-          className="rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
           id="year"
           name="year"
           type="number"
