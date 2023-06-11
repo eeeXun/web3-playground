@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import MetaMask from "../components/MetaMask";
 import ERC20 from "../components/ERC20";
@@ -8,6 +8,10 @@ const ERC20Page = () => {
   const [chain, setChain] = useState(null);
   const [onSepolia, setOnSepolia] = useState(false);
   const [errMsg, setErrMsg] = useState(null);
+
+  useEffect(() => {
+    document.title = "Web3 ERC20";
+  });
 
   const connectWallect = () => {
     detectEthereumProvider().then((result) => {
@@ -33,15 +37,18 @@ const ERC20Page = () => {
           setOnSepolia(true);
           break;
         case 5:
-          setChain("Goerli (Not supported)");
+          setChain("Goerli");
           setOnSepolia(false);
+          setErrMsg("Not supported");
           break;
         case 1337:
-          setChain("Ganache (Not supported)");
+          setChain("Ganache");
+          setErrMsg("Not supported");
           setOnSepolia(false);
           break;
         default:
           setChain("Chain not recognized!");
+          setErrMsg("Not supported");
           setOnSepolia(false);
           break;
       }
@@ -61,6 +68,7 @@ const ERC20Page = () => {
               <ERC20 />
             </div>
           ) : null}
+          <h3 className="m-3 text-red-600">{errMsg}</h3>
           <button
             className="text-xl text-white bg-blue-600 rounded-lg hover:bg-blue-500"
             onClick={connectWallect}
@@ -76,7 +84,6 @@ const ERC20Page = () => {
           Connect to MetaMask
         </button>
       )}
-      <h3 className="text-blue-600">{errMsg}</h3>
     </>
   );
 };

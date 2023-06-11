@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import MetaMask from "../components/MetaMask";
-import Faucet from "../components/Faucet";
+import DiplomaIssue from "../components/DiplomaIssue";
 
-const FaucetPage = () => {
+const DiplomaIssuePage = () => {
   const [account, setAccount] = useState(null);
   const [chain, setChain] = useState(null);
   const [onSepolia, setOnSepolia] = useState(false);
   const [errMsg, setErrMsg] = useState(null);
 
   useEffect(() => {
-    document.title = "Web3 Faucet";
+    document.title = "Web3 Diploma Issue";
   });
 
   const connectWallect = () => {
@@ -57,7 +57,7 @@ const FaucetPage = () => {
 
   return (
     <>
-      <h1 className="my-8 text-5xl font-bold text-blue-600">Web3 Faucet</h1>
+      <h1 className="my-8 text-5xl font-bold text-blue-600">Diploma Issue</h1>
       {account ? (
         <>
           <div className="m-3 rounded-lg border-2 border-blue-400">
@@ -65,7 +65,7 @@ const FaucetPage = () => {
           </div>
           {onSepolia ? (
             <div className="m-3 rounded-lg border-2 border-blue-400">
-              <Faucet />
+              <DiplomaIssue />
             </div>
           ) : null}
           <h3 className="m-3 text-red-600">{errMsg}</h3>
@@ -88,4 +88,4 @@ const FaucetPage = () => {
   );
 };
 
-export default FaucetPage;
+export default DiplomaIssuePage;

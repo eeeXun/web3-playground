@@ -1,6 +1,7 @@
 import HomePage from "./views/HomePage";
 import FaucetPage from "./views/FaucetPage";
 import ERC20Page from "./views/ERC20Page";
+import DiplomaIssuePage from "./views/DiplomaIssuePage";
 import { Route, Routes, Link } from "react-router-dom";
 
 const App = () => {
@@ -16,11 +17,19 @@ const App = () => {
         <Link className="text-white rounded-lg hover:bg-blue-500" to="/erc20">
           ERC20
         </Link>
+        <Link className="text-white rounded-lg hover:bg-blue-500" to="/dpmissue">
+          Diploma Issue
+        </Link>
+        <Link className="text-white rounded-lg hover:bg-blue-500" to="/dpmview">
+          Diploma View
+        </Link>
       </nav>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/faucet" element={<FaucetPage />}></Route>
         <Route path="/erc20" element={<ERC20Page />}></Route>
+        <Route path="/dpmissue" element={<DiplomaIssuePage />}></Route>
+        <Route path="/dpmview" element={<ERC20Page />}></Route>
       </Routes>
     </div>
   );
