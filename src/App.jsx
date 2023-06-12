@@ -1,8 +1,9 @@
 import HomePage from "./views/HomePage";
-import FaucetPage from "./views/FaucetPage";
-import ERC20Page from "./views/ERC20Page";
-import DiplomaIssuePage from "./views/DiplomaIssuePage";
-import DiplomaViewPage from "./views/DiplomaViewPage";
+import Web3Page from "./views/Web3Page";
+import Faucet from "./components/Faucet";
+import ERC20 from "./components/ERC20";
+import DiplomaIssue from "./components/DiplomaIssue";
+import DiplomaView from "./components/DiplomaView";
 import { Route, Routes, Link } from "react-router-dom";
 
 const App = () => {
@@ -30,10 +31,22 @@ const App = () => {
       </nav>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
-        <Route path="/faucet" element={<FaucetPage />}></Route>
-        <Route path="/erc20" element={<ERC20Page />}></Route>
-        <Route path="/dpmissue" element={<DiplomaIssuePage />}></Route>
-        <Route path="/dpmview" element={<DiplomaViewPage />}></Route>
+        <Route
+          path="/faucet"
+          element={<Web3Page component={<Faucet />} />}
+        ></Route>
+        <Route
+          path="/erc20"
+          element={<Web3Page component={<ERC20 />} />}
+        ></Route>
+        <Route
+          path="/dpmissue"
+          element={<Web3Page component={<DiplomaIssue />} />}
+        ></Route>
+        <Route
+          path="/dpmview"
+          element={<Web3Page component={<DiplomaView />} />}
+        ></Route>
       </Routes>
     </div>
   );

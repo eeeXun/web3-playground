@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import MetaMask from "../components/MetaMask";
-import DiplomaView from "../components/DiplomaView";
 
-const DiplomaViewPage = () => {
+const Web3Page = (props) => {
   const [account, setAccount] = useState(null);
   const [chain, setChain] = useState(null);
   const [onSepolia, setOnSepolia] = useState(false);
   const [errMsg, setErrMsg] = useState(null);
 
   useEffect(() => {
-    document.title = "Web3 Diploma View";
+    document.title = "Web3 Faucet";
   });
 
   const connectWallect = () => {
@@ -57,7 +56,7 @@ const DiplomaViewPage = () => {
 
   return (
     <>
-      <h1 className="my-8 text-5xl font-bold text-blue-600">Diploma View</h1>
+      <h1 className="my-8 text-5xl font-bold text-blue-600">Web3 Faucet</h1>
       {account ? (
         <>
           <div className="m-3 rounded-lg border-2 border-blue-400">
@@ -65,7 +64,7 @@ const DiplomaViewPage = () => {
           </div>
           {onSepolia ? (
             <div className="m-3 rounded-lg border-2 border-blue-400">
-              <DiplomaView />
+              {props.component}
             </div>
           ) : null}
           <h3 className="m-3 text-red-600">{errMsg}</h3>
@@ -88,4 +87,4 @@ const DiplomaViewPage = () => {
   );
 };
 
-export default DiplomaViewPage;
+export default Web3Page;
