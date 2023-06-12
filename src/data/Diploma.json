@@ -5,7 +5,13 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "receiver",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
         "type": "address"
       },
       {
@@ -30,7 +36,13 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "receiver",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
         "type": "address"
       },
       {

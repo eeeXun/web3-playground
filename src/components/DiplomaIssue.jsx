@@ -1,7 +1,7 @@
 import Web3 from "web3";
 
 const DiplomaIssue = () => {
-  const address = "0xCfEe0D93a77133026d9Ba44286877b226601F901";
+  const address = "0xdCD6da5100a26B868CEc9ea0739d1b1558EE86DB";
   const web3 = new Web3(window.ethereum);
 
   const issue_diploma = (event) => {

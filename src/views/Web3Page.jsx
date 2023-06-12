@@ -64,7 +64,7 @@ const Web3Page = (props) => {
           </div>
           {onSepolia ? (
             <div className="m-3 rounded-lg border-2 border-blue-400">
-              {<props.component />}
+              <props.component />
             </div>
           ) : null}
           <h3 className="m-3 text-red-600">{errMsg}</h3>
