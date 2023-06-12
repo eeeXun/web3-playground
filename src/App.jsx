@@ -31,21 +31,15 @@ const App = () => {
       </nav>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
-        <Route
-          path="/faucet"
-          element={<Web3Page component={<Faucet />} />}
-        ></Route>
-        <Route
-          path="/erc20"
-          element={<Web3Page component={<ERC20 />} />}
-        ></Route>
+        <Route path="/faucet" element={<Web3Page component={Faucet} />}></Route>
+        <Route path="/erc20" element={<Web3Page component={ERC20} />}></Route>
         <Route
           path="/dpmissue"
-          element={<Web3Page component={<DiplomaIssue />} />}
+          element={<Web3Page component={DiplomaIssue} />}
         ></Route>
         <Route
           path="/dpmview"
-          element={<Web3Page component={<DiplomaView />} />}
+          element={<Web3Page component={DiplomaView} />}
         ></Route>
       </Routes>
     </div>
