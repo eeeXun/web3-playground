@@ -77,20 +77,24 @@ const DiplomaView = () => {
   return (
     <div className="m-1 text-xl text-blue-600">
       <p>Contract Address: {address}</p>
-      <div className="px-96 m-5 mx-auto">
-        <table className="border border-collapse table-fixed">
-          <thead>
-            <tr>
-              <th className="border border-purple-700">Assignor</th>
-              <th className="border border-purple-700">Name</th>
-              <th className="border border-purple-700">Degree</th>
-              <th className="border border-purple-700">Department</th>
-              <th className="border border-purple-700">Year</th>
-              <th className="border border-purple-700">Status</th>
-            </tr>
-          </thead>
-          <tbody>{diplomaComponent}</tbody>
-        </table>
+      <div class="flex flex-row">
+        <div class="basis-1/4"></div>
+        <div class="basis-1/2">
+          <table className="border border-collapse table-fixed">
+            <thead>
+              <tr>
+                <th className="border border-purple-700">Assignor</th>
+                <th className="border border-purple-700">Name</th>
+                <th className="border border-purple-700">Degree</th>
+                <th className="border border-purple-700">Department</th>
+                <th className="border border-purple-700">Year</th>
+                <th className="border border-purple-700">Status</th>
+              </tr>
+            </thead>
+            <tbody>{diplomaComponent}</tbody>
+          </table>
+        </div>
+        <div class="basis-1/4"></div>
       </div>
       <form onSubmit={request_diploma} className="my-2">
         <label className="text-blue-600" htmlFor="sendAddress">
