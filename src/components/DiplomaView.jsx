@@ -3,7 +3,7 @@ import Web3 from "web3";
 import DiplomaABI from "../data/Diploma.json";
 
 const DiplomaView = () => {
-  const address = "0xcc992df785726B88aAED17577727F8B9a1eE927A";
+  const address = "0x77827A05dfD38b36b5E9Fb77f1B132288E78576F";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
   let diplomas = [];
@@ -11,10 +11,10 @@ const DiplomaView = () => {
 
   useEffect(() => {
     contract.getPastEvents(
-      "Award",
+      "Request",
       {
         filter: {
-          to: window.ethereum.selectedAddress,
+          from: window.ethereum.selectedAddress,
         },
         fromBlock: 0,
       },
@@ -33,7 +33,7 @@ const DiplomaView = () => {
         }
       }
     );
-  });
+  }, []);
 
   const diplomaUpdate = async () => {
     let component = [];
@@ -48,17 +48,36 @@ const DiplomaView = () => {
           <td className="border border-purple-700">{diploma[1]}</td>
           <td className="border border-purple-700">{diploma[2]}</td>
           <td className="border border-purple-700">{data.year}</td>
-          <td className="border border-purple-700">{data.revoke ? "Revoke ❌": "Valid ✅"}</td>
+          <td className="border border-purple-700">
+            {data.valid ? (
+              <>{data.revoke ? "Revoked ⛔" : "Valid ✅"}</>
+            ) : (
+              <>{data.reject ? "Rejected 😭" : "Not Valid ❌"}</>
+            )}
+          </td>
         </tr>
       );
     }
     setDiplomaComponent(component);
   };
 
+  const request_diploma = (event) => {
+    event.preventDefault();
+    contract.methods
+      .request(
+        event.target.elements.sendAddress.value,
+        event.target.elements.name.value,
+        event.target.elements.degree.value,
+        event.target.elements.department.value,
+        event.target.elements.year.value
+      )
+      .send({ from: window.ethereum.selectedAddress });
+  };
+
   return (
     <div className="m-1 text-xl text-blue-600">
       <p>Contract Address: {address}</p>
-      <div className="px-64 m-5 mx-auto">
+      <div className="px-96 m-5 mx-auto">
         <table className="border border-collapse table-fixed">
           <thead>
             <tr>
@@ -70,11 +89,72 @@ const DiplomaView = () => {
               <th className="border border-purple-700">Status</th>
             </tr>
           </thead>
-          <tbody>
-            {diplomaComponent}
-          </tbody>
+          <tbody>{diplomaComponent}</tbody>
         </table>
       </div>
+      <form onSubmit={request_diploma} className="my-2">
+        <label className="text-blue-600" htmlFor="sendAddress">
+          To (address):
+        </label>
+        <input
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          id="sendAddress"
+          name="sendAddress"
+          type="text"
+          required
+        />
+        <br />
+        <label className="text-blue-600" htmlFor="name">
+          Name:
+        </label>
+        <input
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          id="name"
+          name="name"
+          type="text"
+          required
+        />
+        <br />
+        <label className="text-blue-600" htmlFor="degree">
+          Degree:
+        </label>
+        <input
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          id="degree"
+          name="degree"
+          type="text"
+          required
+        />
+        <br />
+        <label className="text-blue-600" htmlFor="department">
+          Department:
+        </label>
+        <input
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          id="department"
+          name="department"
+          type="text"
+          required
+        />
+        <br />
+        <label className="text-blue-600" htmlFor="year">
+          Year:
+        </label>
+        <input
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          id="year"
+          name="year"
+          type="number"
+          required
+        />
+        <br />
+        <button
+          className="text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+          type="submit"
+        >
+          Apply
+        </button>
+      </form>
     </div>
   );
 };
