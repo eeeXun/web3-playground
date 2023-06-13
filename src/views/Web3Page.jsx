@@ -9,7 +9,7 @@ const Web3Page = (props) => {
   const [errMsg, setErrMsg] = useState(null);
 
   useEffect(() => {
-    document.title = "Web3 Faucet";
+    document.title = "Web3 " + props.pagename;
   });
 
   const connectWallect = () => {
@@ -56,7 +56,7 @@ const Web3Page = (props) => {
 
   return (
     <>
-      <h1 className="my-8 text-5xl font-bold text-blue-600">Web3 Faucet</h1>
+      <h1 className="my-8 text-5xl font-bold text-blue-600">Web3 {props.pagename}</h1>
       {account ? (
         <>
           <div className="m-3 rounded-lg border-2 border-blue-400">

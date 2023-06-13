@@ -1,7 +1,7 @@
 import Web3 from "web3";
 
 const DiplomaIssue = () => {
-  const address = "0xdCD6da5100a26B868CEc9ea0739d1b1558EE86DB";
+  const address = "0xcc992df785726B88aAED17577727F8B9a1eE927A";
   const web3 = new Web3(window.ethereum);
 
   const issue_diploma = (event) => {
@@ -103,7 +103,7 @@ const DiplomaIssue = () => {
         />
         <br />
         <label className="text-blue-600" htmlFor="deparment">
-          Deparment:
+          Department:
         </label>
         <input
           className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
