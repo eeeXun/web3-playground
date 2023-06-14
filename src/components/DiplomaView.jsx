@@ -3,13 +3,13 @@ import Web3 from "web3";
 import DiplomaABI from "../data/Diploma.json";
 
 const DiplomaView = (props) => {
-  const address = "0x982872534985Fb25a7d6f44712Ca6D30Ee8846F1";
+  const address = "0xedcAbc0F00B50f33844EEdcEe6BBc0f7c1D1EbCd";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
   let requestDiplomas = [];
-  let awards = [];
+  let grants = [];
   const [requestDiplomaComponent, setRequestDiplomaComponent] = useState();
-  const [awardComponent, setAwardComponent] = useState();
+  const [grantComponent, setGrantComponent] = useState();
 
   useEffect(() => {
     contract.getPastEvents(
@@ -36,7 +36,7 @@ const DiplomaView = (props) => {
       }
     );
     contract.getPastEvents(
-      "Award",
+      "Grant",
       {
         filter: {
           to: window.ethereum.selectedAddress,
@@ -48,30 +48,30 @@ const DiplomaView = (props) => {
           console.log(error);
         } else {
           for (let i = 0; i < event.length; i++) {
-            awards.push([
+            grants.push([
               event[i].returnValues.to,
               event[i].returnValues.degree,
               event[i].returnValues.department,
             ]);
           }
-          awardUpdate();
+          grantUpdate();
         }
       }
     );
   }, [props.reload, window.ethereum.selectedAddress]);
 
-  const awardUpdate = async () => {
+  const grantUpdate = async () => {
     let component = [];
-    for (const award of awards) {
+    for (const grant of grants) {
       let data = await contract.methods
-        .getData(award[0], award[1], award[2])
+        .getData(grant[0], grant[1], grant[2])
         .call();
       component.push(
         <tr>
-          <td className="border border-purple-700">{award[0]}</td>
+          <td className="border border-purple-700">{grant[0]}</td>
           <td className="border border-purple-700">{data.name}</td>
-          <td className="border border-purple-700">{award[1]}</td>
-          <td className="border border-purple-700">{award[2]}</td>
+          <td className="border border-purple-700">{grant[1]}</td>
+          <td className="border border-purple-700">{grant[2]}</td>
           <td className="border border-purple-700">{data.year}</td>
           <td className="border border-purple-700">
             <a href={"https://ipfs.io/ipfs/" + data.img}>
@@ -87,7 +87,7 @@ const DiplomaView = (props) => {
         </tr>
       );
     }
-    setAwardComponent(component);
+    setGrantComponent(component);
   };
 
   const requestUpdate = async () => {
@@ -179,7 +179,7 @@ const DiplomaView = (props) => {
                 <th className="border border-purple-700">Status</th>
               </tr>
             </thead>
-            <tbody>{awardComponent}</tbody>
+            <tbody>{grantComponent}</tbody>
           </table>
         </div>
         <div className="basis-1/4"></div>

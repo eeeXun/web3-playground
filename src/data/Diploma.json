@@ -27,7 +27,7 @@
         "type": "string"
       }
     ],
-    "name": "Award",
+    "name": "Grant",
     "type": "event"
   },
   {
@@ -59,37 +59,6 @@
       }
     ],
     "name": "Request",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "degree",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "department",
-        "type": "string"
-      }
-    ],
-    "name": "Revoke",
     "type": "event"
   },
   {
@@ -161,8 +130,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -281,7 +249,7 @@
         "type": "uint256"
       }
     ],
-    "name": "award",
+    "name": "grant",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -305,6 +273,29 @@
       }
     ],
     "name": "revoke",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "degree",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "department",
+        "type": "string"
+      }
+    ],
+    "name": "recover",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

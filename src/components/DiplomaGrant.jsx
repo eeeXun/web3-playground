@@ -3,13 +3,13 @@ import Web3 from "web3";
 import DiplomaABI from "../data/Diploma.json";
 
 const DiplomaGrant = (props) => {
-  const address = "0x982872534985Fb25a7d6f44712Ca6D30Ee8846F1";
+  const address = "0xedcAbc0F00B50f33844EEdcEe6BBc0f7c1D1EbCd";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
   let requests = [];
-  let awards = [];
+  let grants = [];
   const [requestComponent, setRequestComponent] = useState();
-  const [awardComponent, setAwardComponent] = useState();
+  const [grantComponent, setGrantComponent] = useState();
 
   useEffect(() => {
     contract.getPastEvents(
@@ -36,7 +36,7 @@ const DiplomaGrant = (props) => {
       }
     );
     contract.getPastEvents(
-      "Award",
+      "Grant",
       {
         filter: {
           from: window.ethereum.selectedAddress,
@@ -48,30 +48,30 @@ const DiplomaGrant = (props) => {
           console.log(error);
         } else {
           for (let i = 0; i < event.length; i++) {
-            awards.push([
+            grants.push([
               event[i].returnValues.to,
               event[i].returnValues.degree,
               event[i].returnValues.department,
             ]);
           }
-          awardUpdate();
+          grantUpdate();
         }
       }
     );
   }, [props.reload, window.ethereum.selectedAddress]);
 
-  const awardUpdate = async () => {
+  const grantUpdate = async () => {
     let component = [];
-    for (const award of awards) {
+    for (const grant of grants) {
       let data = await contract.methods
-        .getData(award[0], award[1], award[2])
+        .getData(grant[0], grant[1], grant[2])
         .call();
       component.push(
         <tr>
-          <td className="border border-purple-700">{award[0]}</td>
+          <td className="border border-purple-700">{grant[0]}</td>
           <td className="border border-purple-700">{data.name}</td>
-          <td className="border border-purple-700">{award[1]}</td>
-          <td className="border border-purple-700">{award[2]}</td>
+          <td className="border border-purple-700">{grant[1]}</td>
+          <td className="border border-purple-700">{grant[2]}</td>
           <td className="border border-purple-700">{data.year}</td>
           <td className="border border-purple-700">
             <a href={"https://ipfs.io/ipfs/" + data.img}>
@@ -87,21 +87,31 @@ const DiplomaGrant = (props) => {
                 type="hidden"
                 id="requester"
                 name="requester"
-                value={award[0]}
+                value={grant[0]}
               />
-              <input type="hidden" id="degree" name="degree" value={award[1]} />
+              <input type="hidden" id="degree" name="degree" value={grant[1]} />
               <input
                 type="hidden"
                 id="department"
                 name="department"
-                value={award[2]}
+                value={grant[2]}
               />
               {data.revoke ? (
-                <div className="m-1 text-red-500">Revoked</div>
+                <>
+                  <div className="m-1 text-red-500">Revoked</div>
+                  <button
+                    className="m-1 text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                    type="submit"
+                    name="recover"
+                  >
+                    Recover
+                  </button>
+                </>
               ) : (
                 <button
                   className="m-1 text-white bg-red-600 rounded-lg hover:bg-red-500"
                   type="submit"
+                  name="revoke"
                 >
                   Revoke
                 </button>
@@ -111,7 +121,7 @@ const DiplomaGrant = (props) => {
         </tr>
       );
     }
-    setAwardComponent(component);
+    setGrantComponent(component);
   };
 
   const handle_revoke = (event) => {
@@ -119,9 +129,18 @@ const DiplomaGrant = (props) => {
     let requester = event.target.elements.requester.value;
     let degree = event.target.elements.degree.value;
     let department = event.target.elements.department.value;
-    contract.methods
-      .revoke(requester, degree, department)
-      .send({ from: window.ethereum.selectedAddress });
+    switch (event.nativeEvent.submitter.name) {
+      case "revoke":
+        contract.methods
+          .revoke(requester, degree, department)
+          .send({ from: window.ethereum.selectedAddress });
+        break;
+      case "recover":
+        contract.methods
+          .recover(requester, degree, department)
+          .send({ from: window.ethereum.selectedAddress });
+        break;
+    }
   };
 
   const requestUpdate = async () => {
@@ -244,10 +263,10 @@ const DiplomaGrant = (props) => {
                 <th className="border border-purple-700">Department</th>
                 <th className="border border-purple-700">Year</th>
                 <th className="border border-purple-700">Image</th>
-                <th className="border border-purple-700">Revoke</th>
+                <th className="border border-purple-700">Revoke/Recover</th>
               </tr>
             </thead>
-            <tbody>{awardComponent}</tbody>
+            <tbody>{grantComponent}</tbody>
           </table>
         </div>
         <div className="basis-1/4"></div>
