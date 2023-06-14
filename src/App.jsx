@@ -2,7 +2,7 @@ import HomePage from "./views/HomePage";
 import Web3Page from "./views/Web3Page";
 import Faucet from "./components/Faucet";
 import ERC20 from "./components/ERC20";
-import DiplomaAward from "./components/DiplomaAward";
+import DiplomaGrant from "./components/DiplomaGrant";
 import DiplomaView from "./components/DiplomaView";
 import { Route, Routes, Link } from "react-router-dom";
 
@@ -21,9 +21,9 @@ const App = () => {
         </Link>
         <Link
           className="text-white rounded-lg hover:bg-blue-500"
-          to="/dpmaward"
+          to="/dpmgrant"
         >
-          Diploma Award
+          Diploma Grant
         </Link>
         <Link className="text-white rounded-lg hover:bg-blue-500" to="/dpmview">
           Diploma View
@@ -40,9 +40,9 @@ const App = () => {
           element={<Web3Page component={ERC20} pagename={"ERC20"} />}
         ></Route>
         <Route
-          path="/dpmaward"
+          path="/dpmgrant"
           element={
-            <Web3Page component={DiplomaAward} pagename={"Diploma Award"} />
+            <Web3Page component={DiplomaGrant} pagename={"Diploma Grant"} />
           }
         ></Route>
         <Route
