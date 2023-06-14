@@ -39,17 +39,17 @@ const Web3Page = (props) => {
           break;
         case 5:
           setChain("Goerli");
-          setErrMsg("Not supported");
+          setErrMsg("Not supported! (Only Sepolia)");
           setOnSepolia(false);
           break;
         case 1337:
           setChain("Ganache");
-          setErrMsg("Not supported");
+          setErrMsg("Not supported! (Only Sepolia)");
           setOnSepolia(false);
           break;
         default:
           setChain("Chain not recognized!");
-          setErrMsg("Not supported");
+          setErrMsg("Not supported! (Only Sepolia)");
           setOnSepolia(false);
           break;
       }
@@ -68,7 +68,7 @@ const Web3Page = (props) => {
           </div>
           {onSepolia ? (
             <div className="m-3 rounded-lg border-2 border-blue-400">
-              <props.component reload={reload}/>
+              <props.component reload={reload} />
             </div>
           ) : null}
           <h3 className="m-3 text-red-600">{errMsg}</h3>
@@ -80,12 +80,15 @@ const Web3Page = (props) => {
           </button>
         </>
       ) : (
-        <button
-          className="text-xl text-white bg-blue-600 rounded-lg hover:bg-blue-500"
-          onClick={connectWallect}
-        >
-          Connect to MetaMask
-        </button>
+        <>
+          <button
+            className="text-xl text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+            onClick={connectWallect}
+          >
+            Connect to MetaMask
+          </button>
+          <h3 className="m-3 text-red-600">{errMsg}</h3>
+        </>
       )}
     </>
   );
