@@ -7,7 +7,9 @@ const DiplomaView = (props) => {
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
   let requestDiplomas = [];
+  let awards = [];
   const [requestDiplomaComponent, setRequestDiplomaComponent] = useState();
+  const [awardComponent, setAwardComponent] = useState();
 
   useEffect(() => {
     contract.getPastEvents(
@@ -29,24 +31,47 @@ const DiplomaView = (props) => {
               event[i].returnValues.department,
             ]);
           }
-          diplomaUpdate();
+          requestUpdate();
+        }
+      }
+    );
+    contract.getPastEvents(
+      "Award",
+      {
+        filter: {
+          to: window.ethereum.selectedAddress,
+        },
+        fromBlock: 0,
+      },
+      (error, event) => {
+        if (error) {
+          console.log(error);
+        } else {
+          for (let i = 0; i < event.length; i++) {
+            awards.push([
+              event[i].returnValues.to,
+              event[i].returnValues.degree,
+              event[i].returnValues.department,
+            ]);
+          }
+          awardUpdate();
         }
       }
     );
   }, [props.reload, window.ethereum.selectedAddress]);
 
-  const diplomaUpdate = async () => {
+  const awardUpdate = async () => {
     let component = [];
-    for (const diploma of requestDiplomas) {
+    for (const award of awards) {
       let data = await contract.methods
-        .getData(diploma[0], diploma[1], diploma[2])
+        .getData(award[0], award[1], award[2])
         .call();
       component.push(
         <tr>
-          <td className="border border-purple-700">{data.assignor}</td>
+          <td className="border border-purple-700">{award[0]}</td>
           <td className="border border-purple-700">{data.name}</td>
-          <td className="border border-purple-700">{diploma[1]}</td>
-          <td className="border border-purple-700">{diploma[2]}</td>
+          <td className="border border-purple-700">{award[1]}</td>
+          <td className="border border-purple-700">{award[2]}</td>
           <td className="border border-purple-700">{data.year}</td>
           <td className="border border-purple-700">
             <a href={"https://ipfs.io/ipfs/" + data.img}>
@@ -57,14 +82,42 @@ const DiplomaView = (props) => {
             </a>
           </td>
           <td className="border border-purple-700">
-            {data.valid ? (
-              <>{data.revoke ? "Revoked ⛔" : "Valid ✅"}</>
-            ) : (
-              <>{data.reject ? "Rejected 😭" : "Not Valid ❌"}</>
-            )}
+            {data.revoke ? "Revoked ⛔" : "Valid ✅"}
           </td>
         </tr>
       );
+    }
+    setAwardComponent(component);
+  };
+
+  const requestUpdate = async () => {
+    let component = [];
+    for (const diploma of requestDiplomas) {
+      let data = await contract.methods
+        .getData(diploma[0], diploma[1], diploma[2])
+        .call();
+      if (!data.valid) {
+        component.push(
+          <tr>
+            <td className="border border-purple-700">{data.assignor}</td>
+            <td className="border border-purple-700">{data.name}</td>
+            <td className="border border-purple-700">{diploma[1]}</td>
+            <td className="border border-purple-700">{diploma[2]}</td>
+            <td className="border border-purple-700">{data.year}</td>
+            <td className="border border-purple-700">
+              <a href={"https://ipfs.io/ipfs/" + data.img}>
+                <img
+                  src={"https://ipfs.io/ipfs/" + data.img}
+                  alt="Diploma Image"
+                />
+              </a>
+            </td>
+            <td className="border border-purple-700">
+              {data.reject ? "Rejected 😭" : "Not Valid ❌"}
+            </td>
+          </tr>
+        );
+      }
     }
     setRequestDiplomaComponent(component);
   };
@@ -89,10 +142,12 @@ const DiplomaView = (props) => {
         <div className="basis-1/4"></div>
         <div className="basis-1/2">
           <table className="border border-collapse table-auto">
-            <caption className="text-blue-800 caption-top">Your Diploma</caption>
+            <caption className="text-blue-800 caption-top">
+              Your Request
+            </caption>
             <thead>
               <tr>
-                <th className="border border-purple-700">Assignor</th>
+                <th className="border border-purple-700">Assigner</th>
                 <th className="border border-purple-700">Name</th>
                 <th className="border border-purple-700">Degree</th>
                 <th className="border border-purple-700">Department</th>
@@ -102,6 +157,29 @@ const DiplomaView = (props) => {
               </tr>
             </thead>
             <tbody>{requestDiplomaComponent}</tbody>
+          </table>
+        </div>
+        <div className="basis-1/4"></div>
+      </div>
+      <div className="flex flex-row">
+        <div className="basis-1/4"></div>
+        <div className="basis-1/2">
+          <table className="border border-collapse table-auto">
+            <caption className="text-blue-800 caption-top">
+              Your Diploma
+            </caption>
+            <thead>
+              <tr>
+                <th className="border border-purple-700">Assigner</th>
+                <th className="border border-purple-700">Name</th>
+                <th className="border border-purple-700">Degree</th>
+                <th className="border border-purple-700">Department</th>
+                <th className="border border-purple-700">Year</th>
+                <th className="border border-purple-700">Image</th>
+                <th className="border border-purple-700">Status</th>
+              </tr>
+            </thead>
+            <tbody>{awardComponent}</tbody>
           </table>
         </div>
         <div className="basis-1/4"></div>
