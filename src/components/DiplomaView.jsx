@@ -3,15 +3,22 @@ import Web3 from "web3";
 import DiplomaABI from "../data/Diploma.json";
 
 const DiplomaView = (props) => {
-  const address = "0xedcAbc0F00B50f33844EEdcEe6BBc0f7c1D1EbCd";
+  const address = "0x5fc38B825Cd20C11389220743e8D370c6114769D";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
+  const [requestFee, setRequestFee] = useState(0);
   let requestDiplomas = [];
   let grants = [];
   const [requestDiplomaComponent, setRequestDiplomaComponent] = useState();
   const [grantComponent, setGrantComponent] = useState();
 
   useEffect(() => {
+    contract.methods
+      .getFee()
+      .call()
+      .then((fee) => {
+        setRequestFee(fee);
+      });
     contract.getPastEvents(
       "Request",
       {
@@ -133,7 +140,10 @@ const DiplomaView = (props) => {
         event.target.elements.img.value,
         event.target.elements.year.value
       )
-      .send({ from: window.ethereum.selectedAddress });
+      .send({
+        from: window.ethereum.selectedAddress,
+        value: requestFee,
+      });
   };
 
   return (
@@ -251,6 +261,10 @@ const DiplomaView = (props) => {
           required
         />
         <br />
+        <p className="text-red-600">
+          Send $10(USD), {web3.utils.fromWei(String(requestFee))}(ETH) to your
+          assigner for your application
+        </p>
         <button
           className="text-white bg-blue-600 rounded-lg hover:bg-blue-500"
           type="submit"
