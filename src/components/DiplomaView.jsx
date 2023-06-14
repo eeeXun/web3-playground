@@ -196,7 +196,7 @@ const DiplomaView = (props) => {
       </div>
       <form onSubmit={request_diploma} className="my-2">
         <label className="text-blue-600" htmlFor="sendAddress">
-          To (address):
+          School (address):
         </label>
         <input
           className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
