@@ -3,7 +3,7 @@ import Web3 from "web3";
 import DiplomaABI from "../data/Diploma.json";
 
 const DiplomaIssue = () => {
-  const address = "0x77827A05dfD38b36b5E9Fb77f1B132288E78576F";
+  const address = "0x982872534985Fb25a7d6f44712Ca6D30Ee8846F1";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
   let requests = [];
@@ -33,7 +33,7 @@ const DiplomaIssue = () => {
         }
       }
     );
-  }, []);
+  }, [window.ethereum.selectedAddress]);
 
   const requestUpdate = async () => {
     let component = [];
@@ -49,6 +49,14 @@ const DiplomaIssue = () => {
             <td className="border border-purple-700">{request[1]}</td>
             <td className="border border-purple-700">{request[2]}</td>
             <td className="border border-purple-700">{data.year}</td>
+            <td className="border border-purple-700">
+              <a href={"https://ipfs.io/ipfs/" + data.img}>
+                <img
+                  src={"https://ipfs.io/ipfs/" + data.img}
+                  alt="Diploma Image"
+                />
+              </a>
+            </td>
             <td className="border border-purple-700">
               <form onSubmit={handle_request}>
                 <input
@@ -100,7 +108,7 @@ const DiplomaIssue = () => {
     switch (event.nativeEvent.submitter.name) {
       case "approve":
         contract.methods
-          .confirm(requester, degree, department)
+          .approve(requester, degree, department)
           .send({ from: window.ethereum.selectedAddress });
         break;
       case "reject":
@@ -119,6 +127,7 @@ const DiplomaIssue = () => {
         event.target.elements.name.value,
         event.target.elements.degree.value,
         event.target.elements.department.value,
+        event.target.elements.img.value,
         event.target.elements.year.value
       )
       .send({ from: window.ethereum.selectedAddress });
@@ -126,11 +135,10 @@ const DiplomaIssue = () => {
 
   return (
     <div className="m-1 text-xl text-blue-600">
-      <p>Contract Address: {address}</p>
-      <div class="flex flex-row">
-        <div class="basis-1/4"></div>
-        <div class="basis-1/2">
-          <table className="border border-collapse table-fixed">
+      <div className="flex flex-row">
+        <div className="basis-1/4"></div>
+        <div className="basis-1/2">
+          <table className="border border-collapse table-auto">
             <thead>
               <tr>
                 <th className="border border-purple-700">Requester</th>
@@ -138,13 +146,14 @@ const DiplomaIssue = () => {
                 <th className="border border-purple-700">Degree</th>
                 <th className="border border-purple-700">Department</th>
                 <th className="border border-purple-700">Year</th>
+                <th className="border border-purple-700">Image</th>
                 <th className="border border-purple-700">Approve/Reject</th>
               </tr>
             </thead>
             <tbody>{requestComponent}</tbody>
           </table>
         </div>
-        <div class="basis-1/4"></div>
+        <div className="basis-1/4"></div>
       </div>
       <form onSubmit={issue_diploma} className="my-2">
         <label className="text-blue-600" htmlFor="sendAddress">
@@ -199,6 +208,17 @@ const DiplomaIssue = () => {
           id="year"
           name="year"
           type="number"
+          required
+        />
+        <br />
+        <label className="text-blue-600" htmlFor="year">
+          Image (IPFS CID):
+        </label>
+        <input
+          className="m-1 rounded-lg border-2 border-blue-600 hover:border-blue-400 focus:ring focus:outline-none"
+          id="img"
+          name="img"
+          type="text"
           required
         />
         <br />

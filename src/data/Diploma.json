@@ -136,6 +136,11 @@
           },
           {
             "internalType": "bool",
+            "name": "reviewing",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
             "name": "valid",
             "type": "bool"
           },
@@ -158,39 +163,6 @@
     "stateMutability": "view",
     "type": "function",
     "constant": true
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "degree",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "department",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "year",
-        "type": "uint256"
-      }
-    ],
-    "name": "request",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
   },
   {
     "inputs": [
@@ -248,7 +220,7 @@
         "type": "string"
       }
     ],
-    "name": "confirm",
+    "name": "approve",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -301,39 +273,6 @@
       {
         "internalType": "string",
         "name": "img",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "year",
-        "type": "uint256"
-      }
-    ],
-    "name": "award",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "degree",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "department",
         "type": "string"
       },
       {
