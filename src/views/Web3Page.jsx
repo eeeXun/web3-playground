@@ -3,6 +3,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import MetaMask from "../components/MetaMask";
 
 const Web3Page = (props) => {
+  const [reload, setReload] = useState(0);
   const [account, setAccount] = useState(null);
   const [chain, setChain] = useState(null);
   const [onSepolia, setOnSepolia] = useState(false);
@@ -13,6 +14,7 @@ const Web3Page = (props) => {
   });
 
   const connectWallect = () => {
+    setReload((p) => p + 1);
     detectEthereumProvider().then((result) => {
       if (result) {
         window.ethereum
@@ -56,7 +58,9 @@ const Web3Page = (props) => {
 
   return (
     <>
-      <h1 className="my-8 text-5xl font-bold text-blue-600">Web3 {props.pagename}</h1>
+      <h1 className="my-8 text-5xl font-bold text-blue-600">
+        Web3 {props.pagename}
+      </h1>
       {account ? (
         <>
           <div className="m-3 rounded-lg border-2 border-blue-400">
@@ -64,7 +68,7 @@ const Web3Page = (props) => {
           </div>
           {onSepolia ? (
             <div className="m-3 rounded-lg border-2 border-blue-400">
-              <props.component />
+              <props.component reload={reload}/>
             </div>
           ) : null}
           <h3 className="m-3 text-red-600">{errMsg}</h3>

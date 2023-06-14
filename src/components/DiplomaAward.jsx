@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 import DiplomaABI from "../data/Diploma.json";
 
-const DiplomaIssue = () => {
+const DiplomaAward = (props) => {
   const address = "0x982872534985Fb25a7d6f44712Ca6D30Ee8846F1";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
@@ -33,7 +33,7 @@ const DiplomaIssue = () => {
         }
       }
     );
-  }, [window.ethereum.selectedAddress]);
+  }, [props.reload, window.ethereum.selectedAddress ]);
 
   const requestUpdate = async () => {
     let component = [];
@@ -139,6 +139,7 @@ const DiplomaIssue = () => {
         <div className="basis-1/4"></div>
         <div className="basis-1/2">
           <table className="border border-collapse table-auto">
+            <caption className="text-blue-800 caption-top">Request</caption>
             <thead>
               <tr>
                 <th className="border border-purple-700">Requester</th>
@@ -233,4 +234,4 @@ const DiplomaIssue = () => {
   );
 };
 
-export default DiplomaIssue;
+export default DiplomaAward;
