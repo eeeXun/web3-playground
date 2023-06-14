@@ -238,7 +238,7 @@ const DiplomaGrant = (props) => {
             <caption className="text-blue-800 caption-top">Grant</caption>
             <thead>
               <tr>
-                <th className="border border-purple-700">Grant</th>
+                <th className="border border-purple-700">Grant to</th>
                 <th className="border border-purple-700">Name</th>
                 <th className="border border-purple-700">Degree</th>
                 <th className="border border-purple-700">Department</th>
