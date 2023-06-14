@@ -7,7 +7,9 @@ const DiplomaAward = (props) => {
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
   let requests = [];
+  let awards = [];
   const [requestComponent, setRequestComponent] = useState();
+  const [awardComponent, setAwardComponent] = useState();
 
   useEffect(() => {
     contract.getPastEvents(
@@ -33,7 +35,94 @@ const DiplomaAward = (props) => {
         }
       }
     );
-  }, [props.reload, window.ethereum.selectedAddress ]);
+    contract.getPastEvents(
+      "Award",
+      {
+        filter: {
+          from: window.ethereum.selectedAddress,
+        },
+        fromBlock: 0,
+      },
+      (error, event) => {
+        if (error) {
+          console.log(error);
+        } else {
+          for (let i = 0; i < event.length; i++) {
+            awards.push([
+              event[i].returnValues.to,
+              event[i].returnValues.degree,
+              event[i].returnValues.department,
+            ]);
+          }
+          awardUpdate();
+        }
+      }
+    );
+  }, [props.reload, window.ethereum.selectedAddress]);
+
+  const awardUpdate = async () => {
+    let component = [];
+    for (const award of awards) {
+      let data = await contract.methods
+        .getData(award[0], award[1], award[2])
+        .call();
+      component.push(
+        <tr>
+          <td className="border border-purple-700">{award[0]}</td>
+          <td className="border border-purple-700">{data.name}</td>
+          <td className="border border-purple-700">{award[1]}</td>
+          <td className="border border-purple-700">{award[2]}</td>
+          <td className="border border-purple-700">{data.year}</td>
+          <td className="border border-purple-700">
+            <a href={"https://ipfs.io/ipfs/" + data.img}>
+              <img
+                src={"https://ipfs.io/ipfs/" + data.img}
+                alt="Diploma Image"
+              />
+            </a>
+          </td>
+          <td className="border border-purple-700">
+            <form onSubmit={handle_revoke}>
+              <input
+                type="hidden"
+                id="requester"
+                name="requester"
+                value={award[0]}
+              />
+              <input type="hidden" id="degree" name="degree" value={award[1]} />
+              <input
+                type="hidden"
+                id="department"
+                name="department"
+                value={award[2]}
+              />
+              {data.revoke ? (
+                <div className="m-1 text-red-500">Revoked</div>
+              ) : (
+                <button
+                  className="m-1 text-white bg-red-600 rounded-lg hover:bg-red-500"
+                  type="submit"
+                >
+                  Revoke
+                </button>
+              )}
+            </form>
+          </td>
+        </tr>
+      );
+    }
+    setAwardComponent(component);
+  };
+
+  const handle_revoke = (event) => {
+    event.preventDefault();
+    let requester = event.target.elements.requester.value;
+    let degree = event.target.elements.degree.value;
+    let department = event.target.elements.department.value;
+    contract.methods
+      .revoke(requester, degree, department)
+      .send({ from: window.ethereum.selectedAddress });
+  };
 
   const requestUpdate = async () => {
     let component = [];
@@ -85,7 +174,7 @@ const DiplomaAward = (props) => {
                   Approve
                 </button>
                 <button
-                  className="m-1 text-white bg-red-600 rounded-lg hover:bg-blue-500"
+                  className="m-1 text-white bg-red-600 rounded-lg hover:bg-red-500"
                   type="submit"
                   name="reject"
                 >
@@ -152,6 +241,27 @@ const DiplomaAward = (props) => {
               </tr>
             </thead>
             <tbody>{requestComponent}</tbody>
+          </table>
+        </div>
+        <div className="basis-1/4"></div>
+      </div>
+      <div className="flex flex-row">
+        <div className="basis-1/4"></div>
+        <div className="basis-1/2">
+          <table className="border border-collapse table-auto">
+            <caption className="text-blue-800 caption-top">Award</caption>
+            <thead>
+              <tr>
+                <th className="border border-purple-700">Award</th>
+                <th className="border border-purple-700">Name</th>
+                <th className="border border-purple-700">Degree</th>
+                <th className="border border-purple-700">Department</th>
+                <th className="border border-purple-700">Year</th>
+                <th className="border border-purple-700">Image</th>
+                <th className="border border-purple-700">Revoke</th>
+              </tr>
+            </thead>
+            <tbody>{awardComponent}</tbody>
           </table>
         </div>
         <div className="basis-1/4"></div>

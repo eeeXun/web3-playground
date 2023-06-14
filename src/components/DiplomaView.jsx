@@ -6,8 +6,8 @@ const DiplomaView = (props) => {
   const address = "0x982872534985Fb25a7d6f44712Ca6D30Ee8846F1";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
-  let diplomas = [];
-  const [diplomaComponent, setDiplomaComponent] = useState();
+  let requestDiplomas = [];
+  const [requestDiplomaComponent, setRequestDiplomaComponent] = useState();
 
   useEffect(() => {
     contract.getPastEvents(
@@ -23,7 +23,7 @@ const DiplomaView = (props) => {
           console.log(error);
         } else {
           for (let i = 0; i < event.length; i++) {
-            diplomas.push([
+            requestDiplomas.push([
               event[i].returnValues.from,
               event[i].returnValues.degree,
               event[i].returnValues.department,
@@ -37,7 +37,7 @@ const DiplomaView = (props) => {
 
   const diplomaUpdate = async () => {
     let component = [];
-    for (const diploma of diplomas) {
+    for (const diploma of requestDiplomas) {
       let data = await contract.methods
         .getData(diploma[0], diploma[1], diploma[2])
         .call();
@@ -66,7 +66,7 @@ const DiplomaView = (props) => {
         </tr>
       );
     }
-    setDiplomaComponent(component);
+    setRequestDiplomaComponent(component);
   };
 
   const request_diploma = (event) => {
@@ -89,7 +89,7 @@ const DiplomaView = (props) => {
         <div className="basis-1/4"></div>
         <div className="basis-1/2">
           <table className="border border-collapse table-auto">
-            <caption className="text-blue-800 caption-top">Request</caption>
+            <caption className="text-blue-800 caption-top">Your Diploma</caption>
             <thead>
               <tr>
                 <th className="border border-purple-700">Assignor</th>
@@ -101,7 +101,7 @@ const DiplomaView = (props) => {
                 <th className="border border-purple-700">Status</th>
               </tr>
             </thead>
-            <tbody>{diplomaComponent}</tbody>
+            <tbody>{requestDiplomaComponent}</tbody>
           </table>
         </div>
         <div className="basis-1/4"></div>
