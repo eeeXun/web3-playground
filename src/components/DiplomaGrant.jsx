@@ -3,7 +3,7 @@ import Web3 from "web3";
 import DiplomaABI from "../data/Diploma.json";
 
 const DiplomaGrant = (props) => {
-  const address = "0x88F986050140a11a45E082C6CB697aa31E486dC5";
+  const address = "0x41ADE6Bbbd52F9A199483d8c1F35b4a28B0dd972";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
   let requests = [];
