@@ -134,12 +134,12 @@
           },
           {
             "internalType": "bool",
-            "name": "reject",
+            "name": "rejected",
             "type": "bool"
           },
           {
             "internalType": "bool",
-            "name": "revoke",
+            "name": "revoked",
             "type": "bool"
           }
         ],

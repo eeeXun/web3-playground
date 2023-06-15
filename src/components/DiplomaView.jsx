@@ -3,7 +3,7 @@ import Web3 from "web3";
 import DiplomaABI from "../data/Diploma.json";
 
 const DiplomaView = (props) => {
-  const address = "0x5fc38B825Cd20C11389220743e8D370c6114769D";
+  const address = "0x88F986050140a11a45E082C6CB697aa31E486dC5";
   const web3 = new Web3(window.ethereum);
   const contract = new web3.eth.Contract(DiplomaABI, address);
   const [requestFee, setRequestFee] = useState(0);
@@ -89,7 +89,7 @@ const DiplomaView = (props) => {
             </a>
           </td>
           <td className="border border-purple-700">
-            {data.revoke ? "Revoked ⛔" : "Valid ✅"}
+            {data.revoked ? "Revoked ⛔" : "Valid ✅"}
           </td>
         </tr>
       );
@@ -120,7 +120,7 @@ const DiplomaView = (props) => {
               </a>
             </td>
             <td className="border border-purple-700">
-              {data.reject ? "Rejected 😭" : "Not Valid ❌"}
+              {data.rejected ? "Rejected 😭" : "Not Valid ❌"}
             </td>
           </tr>
         );
